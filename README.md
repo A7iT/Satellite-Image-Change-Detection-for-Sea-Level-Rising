@@ -85,4 +85,4 @@ Forecasting, model evaluation, and integrated coastal-risk analysis are being de
 
 ## License
 
-For academic and research purposes.
+Apache 2.0; for academic and research purposes.
