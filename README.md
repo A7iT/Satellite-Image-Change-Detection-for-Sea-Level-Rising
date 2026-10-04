@@ -10,7 +10,7 @@ An end-to-end automated pipeline that processes 26 years (2000–2025) of Landsa
 
 ## 📊 Get the Data (No Code Required)
 
-If you just want to train Machine Learning models without running the heavy satellite extraction pipeline, you can download the fully processed, model-ready datasets directly from the [Releases Page](https://github.com/A7iT/https://github.com/A7iT/Satellite-Image-Change-Detection-for-Sea-Level-Rising/releases/latest).
+If you just want to train Machine Learning models without running the heavy satellite extraction pipeline, you can download the fully processed, model-ready datasets directly from the [Releases Page](https://github.com/A7iT/Satellite-Image-Change-Detection-for-Sea-Level-Rising/releases/tag/v1.0.0).
 
 To load it directly into Google Colab or Jupyter:
 ```python
