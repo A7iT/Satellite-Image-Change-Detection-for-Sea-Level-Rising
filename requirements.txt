@@ -1,0 +1,21 @@
+rasterio
+geopandas
+pandas
+numpy
+scikit-learn
+scikit-image
+shapely
+loguru
+joblib
+pystac-client
+planetary-computer
+matplotlib
+scipy
+pytest
+
+
+Run 1
+D:\_Thesis\venv\Scripts\python.exe main.py
+
+Run 2 
+D:\_Thesis\venv\Scripts\python.exe src/dataset/build_dataset.py

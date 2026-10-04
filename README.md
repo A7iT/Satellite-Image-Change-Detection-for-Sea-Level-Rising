@@ -1,88 +1,82 @@
-# Satellite Image Change Detection for Sea Level Rise Assessment and Coastal Risk Prediction
+# Satellite-Based Shoreline Change Detection
 
-A research project focused on analyzing shoreline changes, sea-level trends, and future coastal risk in **Cox's Bazar, Bangladesh** using satellite imagery, geospatial analysis, and machine learning.
+![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Objectives
+This project implements a complete pipeline for satellite-based shoreline change detection using Landsat imagery (Collection 2 Level-2). The system processes Landsat data over a study period (2000-2025) and extracts shorelines using the Modified Normalized Difference Water Index (MNDWI), Otsu thresholding, and morphological cleanup. Change detection is performed using transect-based analysis (similar to the Digital Shoreline Analysis System, DSAS) to compute metrics such as Net Shoreline Movement (NSM) and End Point Rate (EPR). Additionally, it generates a labeled machine learning dataset for predicting shoreline change direction (Eroding, Accreting, Stable).
 
-* Detect historical shoreline changes using satellite imagery.
-* Quantify coastal erosion and shoreline retreat.
-* Analyze historical sea-level trends.
-* Forecast future sea-level conditions.
-* Identify potentially vulnerable coastal areas.
+## Study Area and Methodology
 
-## Methodology
+**Study Area**: The coastal zone of Bangladesh/Bengal.
+**CRS**: EPSG:32646 (UTM Zone 46N) and geographic EPSG:4326.
+**Data**: Landsat Collection 2 Level-2 imagery (configured for max cloud cover of 30%).
+
+**Methodology**:
+1. **Acquisition & Preprocessing**: Landsat imagery is searched via STAC, downloaded, and preprocessed into annual median composites.
+2. **Water Extraction**: Spectral indices (like MNDWI) are calculated, and an automatic Otsu threshold is applied to separate land and water.
+3. **Shoreline Extraction**: Morphological operations filter noise, and vectorization extracts continuous shorelines.
+4. **Change Detection**: Using predefined transects, intersections with annual shorelines are determined. The displacement between years computes NSM and EPR, defining change direction.
+5. **Dataset Generation**: Outputs an extensive dataset (`shoreline_change_labels.csv`) with spatial and tabular metrics for ML modeling.
+
+## Directory Structure
 
 ```text
-Satellite Imagery
-       ↓
-Preprocessing
-       ↓
-NDWI Water Detection
-       ↓
-Coastline Extraction
-       ↓
-Shoreline Change Analysis
-       ↓
-Sea-Level Forecasting
-       ↓
-Coastal Risk Assessment
+D:\_Thesis\
+├── config/              # Configuration files (study period, AOI, Landsat params, paths)
+├── data/                # Data directory (managed by paths.py)
+│   ├── raw/             # Raw Landsat downloads
+│   ├── processed/       # Preprocessed scenes
+│   ├── composites/      # Annual median composites
+│   ├── indices/         # Computed spectral indices
+│   ├── water/           # Binary water masks
+│   ├── analysis/        # Shoreline vectors (GPKG)
+│   ├── statistics/      # Change detection statistics (CSV)
+│   ├── visualization/   # Validation plots
+│   └── dataset/         # Final labeled ML dataset
+├── logs/                # Application logs (Loguru)
+├── notebooks/           # Jupyter notebooks for EDA and prototyping
+├── results/             # General results output
+├── shapefiles/          # Reference shapefiles (e.g., CAZ.shp)
+├── src/                 # Main source code
+│   ├── acquisition/     # Landsat STAC search and download
+│   ├── change_detection/# DSAS-like transect analysis and metrics
+│   ├── compositing/     # Annual composite generation
+│   ├── indices/         # Spectral indices calculation
+│   ├── models/          # Data models (dataclasses)
+│   ├── pipeline/        # Workflow pipelines (e.g., YearPipeline)
+│   ├── preprocessing/   # Image preprocessing
+│   ├── shoreline/       # Shoreline vectorization
+│   ├── utils/           # Utility scripts (logging, AOI load)
+│   └── water/           # Water mask generation
+└── tests/               # Unit tests
 ```
 
-## Data
+## Prerequisites & Installation
 
-* Landsat satellite imagery
-* Sea-level time-series data
-* Digital Elevation Model (DEM)
-* Geographic and land-use data where available
+The project uses a Python virtual environment. Key dependencies include:
+- `rasterio`, `geopandas`, `pandas`, `numpy`
+- `scikit-learn`, `scikit-image`, `shapely`, `scipy`
+- `pystac-client`, `planetary-computer`
+- `joblib`, `loguru`, `matplotlib`
 
-The satellite-processing pipeline supports year-based acquisition, compositing, water detection, and shoreline extraction.
+To install:
+```bash
+# Activate the virtual environment
+.\venv\Scripts\activate
 
-## Technologies
-
-* Python
-* Google Earth Engine
-* Rasterio
-* GeoPandas
-* GDAL
-* OpenCV
-* NumPy
-* Pandas
-* Scikit-learn
-* Matplotlib
-* QGIS
-
-## Outputs
-
-* Annual satellite composites
-* Water masks
-* Extracted shoreline geometries
-* Shoreline-change measurements
-* Sea-level forecasts
-* Coastal-risk maps
-* GIS-compatible datasets
-
-## Project Status
-
-**In Development**
-
-The current pipeline includes satellite data acquisition, preprocessing, annual compositing, NDWI-based water detection, coastline extraction, and GIS output generation.
-
-Forecasting, model evaluation, and integrated coastal-risk analysis are being developed as subsequent stages.
-
-## Study Area
-
-**Cox's Bazar, Bangladesh**
-
-## Citation
-
-```bibtex
-@thesis{atit_coastal_risk,
-  title  = {Satellite Image Change Detection for Sea Level Rise Assessment and Coastal Risk Prediction in Cox's Bazar, Bangladesh},
-  author = {Atit Imtiaz},
-  year   = {2026}
-}
+# Install requirements
+pip install -r requirements.txt
 ```
 
-## License
+## How to Run
 
-Apache 2.0; for academic and research purposes.
+1. **Configure Settings**: Review `config/config.py` to set the study period (`start_year`, `end_year`), AOI filename, Landsat parameters, and method choices.
+2. **Execute Main Pipeline**:
+   Run the main script to process yearly imagery, extract shorelines, run change detection, and output the labeled dataset.
+   ```bash
+   python main.py
+   ```
+3. **Outputs**:
+   - `data/dataset/shoreline_change_labels.csv`: Final labeled dataset.
+   - `data/statistics/`: Pairwise statistical comparisons.
+   - `data/analysis/`: GeoPackages containing vectors of shorelines and change transects.
