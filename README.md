@@ -10,13 +10,13 @@ An end-to-end automated pipeline that processes 26 years (2000–2025) of Landsa
 
 ## 📊 Get the Data (No Code Required)
 
-If you just want to train Machine Learning models without running the heavy satellite extraction pipeline, you can download the fully processed, model-ready datasets directly from the [Releases Page](https://github.com/A7iT/[YOUR_REPO_NAME](https://github.com/A7iT/Satellite-Image-Change-Detection-for-Sea-Level-Rising)/releases/latest).
+If you just want to train Machine Learning models without running the heavy satellite extraction pipeline, you can download the fully processed, model-ready datasets directly from the [Releases Page](https://github.com/A7iT/https://github.com/A7iT/Satellite-Image-Change-Detection-for-Sea-Level-Rising/releases/latest).
 
 To load it directly into Google Colab or Jupyter:
 ```python
 import pandas as pd
 
-url = "https://github.com/A7iT/YOUR_REPO_NAME/releases/download/v1.0.0/final_ml_training_dataset.csv"
+url = "https://github.com/A7iT/Satellite-Image-Change-Detection-for-Sea-Level-Rising/releases/download/v1.0.0/final_ml_training_dataset.csv"
 df = pd.read_csv(url)
 
 # Drop target variable for ML
@@ -32,8 +32,8 @@ If you want to run the extraction pipeline from scratch:
 
 **1. Clone the Repository**
 ```bash
-git clone https://github.com/A7iT/YOUR_REPO_NAME.git
-cd YOUR_REPO_NAME
+git clone https://github.com/A7iT/Satellite-Image-Change-Detection-for-Sea-Level-Rising.git
+cd Satellite-Image-Change-Detection-for-Sea-Level-Rising
 ```
 
 **2. Virtual Environment Setup (Crucial)**
